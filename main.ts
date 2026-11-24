@@ -6,7 +6,12 @@
 import { readFileSync } from "node:fs";
 
 const POST_URL_RE = /^https:\/\/x\.com\/WuYuanJie17\/status\/(\d+)$/;
-const PLAY_CODE = "makefun-sled-sundial-calendar";
+const PLAY_CODES = [
+  "makefun-corn-gull-keel",
+  "makefun-beetle-chowder-windsock",
+  "makefun-radar-chisel-chimney",
+  "makefun-anchor-nozzle-coconut",
+];
 const SPONSOR_LINK = "https://make.fun/sponsor/new";
 const PROMOTED_POST = "https://x.com/makefunai/status/2124915864336236646";
 
@@ -48,8 +53,8 @@ if (match[1].length < 10) {
   fail(`status id looks too short to be a real X post: ${match[1]}`);
 }
 
-if (post.play_code !== PLAY_CODE) {
-  fail(`play_code must be ${PLAY_CODE}, got: ${post.play_code}`);
+if (!PLAY_CODES.includes(post.play_code)) {
+  fail(`play_code must be one of ${PLAY_CODES.join(", ")}, got: ${post.play_code}`);
 }
 
 if (post.sponsor_link !== SPONSOR_LINK) {
@@ -61,5 +66,5 @@ if (post.promoted_post !== PROMOTED_POST) {
 }
 
 console.log(
-  `entry OK: post https://x.com/WuYuanJie17/status/${match[1]} | play code ${PLAY_CODE} | promotes ${PROMOTED_POST} | sponsor ${SPONSOR_LINK}`,
+  `entry OK: post https://x.com/WuYuanJie17/status/${match[1]} | play code ${post.play_code} | promotes ${PROMOTED_POST} | sponsor ${SPONSOR_LINK}`,
 );
